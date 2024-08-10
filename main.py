@@ -64,8 +64,6 @@ async def download_video(request: Request, background_tasks: BackgroundTasks):
         raise HTTPException(status_code=500, detail=f"Error downloading video: {str(e)}")
 
 
-client_dist_path = os.path.join(os.path.dirname(__file__), "..", "client", "dist")
-app.mount("/static", StaticFiles(directory=client_dist_path, html=True), name="static")
 
 if __name__ == "__main__":
     import uvicorn
