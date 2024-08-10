@@ -19,8 +19,8 @@ router = APIRouter()
 flow = OAuth2WebServerFlow(
     client_id='29596632858-bjj3570a57ti4773njh3ke35idn44avi.apps.googleusercontent.com',
     client_secret='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',
-    # scope='https://www.googleapis.com/auth/youtube.force-ssl',
-    # redirect_uri='urn:ietf:wg:oauth:2.0:oob'
+    scope='https://www.googleapis.com/auth/youtube.force-ssl',
+    redirect_uri='urn:ietf:wg:oauth:2.0:oob'
 )
 
 storage = Storage('oauth2.json')
