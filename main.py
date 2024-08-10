@@ -11,6 +11,9 @@ from oauth2client.tools import run_flow
 import yt_dlp as yt
 import os
 import re
+import argparse
+
+
 
 limiter = Limiter(key_func=get_remote_address)
 app = FastAPI(docs_url=None, redoc_url=None)
@@ -35,6 +38,8 @@ opts = {
     }
 }
 
+flags = argparse.ArgumentParser(parents=[argparse.ArgumentParser()]).parse_args(['--noauth_local_webserver'])
+credentials = run_flow(flow, storage, flags)
 
 app.state.limiter = limiter
 app.add_exception_handler(429, _rate_limit_exceeded_handler)
