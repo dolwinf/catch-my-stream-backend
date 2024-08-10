@@ -34,7 +34,7 @@ def cleanup(path):
 
 @router.get("/health")
 @limiter.limit("2/minute")
-async def health_check():
+async def health_check(request: Request):
     return JSONResponse(status_code=200, content={"status": "ok"})
 
 @router.post("/download/youtube")
