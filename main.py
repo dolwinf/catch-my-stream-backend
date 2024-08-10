@@ -32,7 +32,7 @@ def cleanup(path):
     if os.path.exists(path):
        os.remove(path)
 
-@router.post("/download/youtube/")
+@router.post("/download/youtube")
 @limiter.limit("2/minute")
 async def download_video(request: Request, background_tasks: BackgroundTasks):
     try:
