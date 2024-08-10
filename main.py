@@ -32,7 +32,7 @@ def cleanup(path):
     if os.path.exists(path):
        os.remove(path)
 
-@app.get("/health")
+@router.get("/health")
 @limiter.limit("2/minute")
 async def health_check():
     return JSONResponse(status_code=200, content={"status": "ok"})
