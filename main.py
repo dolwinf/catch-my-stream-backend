@@ -16,7 +16,7 @@ router = APIRouter()
 app.state.limiter = limiter
 app.add_exception_handler(429, _rate_limit_exceeded_handler)
 app.add_middleware(SlowAPIMiddleware)
-app.include_router(router)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -69,6 +69,7 @@ async def download_video(request: Request, background_tasks: BackgroundTasks):
         raise HTTPException(status_code=500, detail=f"Error downloading video: {str(e)}")
 
 
+app.include_router(router)
 
 if __name__ == "__main__":
     import uvicorn
