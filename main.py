@@ -19,7 +19,7 @@ app.add_middleware(SlowAPIMiddleware)
 app.include_router(router)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://catch-my-stream-frontend.vercel.app/"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
