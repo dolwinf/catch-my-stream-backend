@@ -19,27 +19,27 @@ limiter = Limiter(key_func=get_remote_address)
 app = FastAPI(docs_url=None, redoc_url=None)
 router = APIRouter()
 
-flow = OAuth2WebServerFlow(
-    client_id='29596632858-bjj3570a57ti4773njh3ke35idn44avi.apps.googleusercontent.com',
-    client_secret='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',
-    scope='https://www.googleapis.com/auth/youtube.force-ssl',
-    redirect_uri='urn:ietf:wg:oauth:2.0:oob'
-)
+# flow = OAuth2WebServerFlow(
+#     client_id='29596632858-bjj3570a57ti4773njh3ke35idn44avi.apps.googleusercontent.com',
+#     client_secret='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',
+#     scope='https://www.googleapis.com/auth/youtube.force-ssl',
+#     redirect_uri='urn:ietf:wg:oauth:2.0:oob'
+# )
 
-storage = Storage('oauth2.json')
-credentials = run_flow(flow, storage)
+# storage = Storage('oauth2.json')
+# credentials = run_flow(flow, storage)
 
-opts = {
-    'oauth2': {
-        'client_id': credentials.client_id,
-        'client_secret': credentials.client_secret,
-        'refresh_token': credentials.refresh_token,
-        'access_token': credentials.access_token,
-    }
-}
+# opts = {
+#     'oauth2': {
+#         'client_id': credentials.client_id,
+#         'client_secret': credentials.client_secret,
+#         'refresh_token': credentials.refresh_token,
+#         'access_token': credentials.access_token,
+#     }
+# }
 
-flags = argparse.ArgumentParser(parents=[argparse.ArgumentParser()]).parse_args(['--noauth_local_webserver'])
-credentials = run_flow(flow, storage, flags)
+# flags = argparse.ArgumentParser(parents=[argparse.ArgumentParser()]).parse_args(['--noauth_local_webserver'])
+# credentials = run_flow(flow, storage, flags)
 
 app.state.limiter = limiter
 app.add_exception_handler(429, _rate_limit_exceeded_handler)
@@ -72,12 +72,13 @@ async def download_video(request: Request, background_tasks: BackgroundTasks):
         body = await request.json()
         url = body.get("url")
        
-        vid_info = yt.YoutubeDL({"skip_download": True, 'oauth2': {
-        'client_id': credentials.client_id,
-        'client_secret': credentials.client_secret,
-        'refresh_token': credentials.refresh_token,
-        'access_token': credentials.access_token,
-    }})
+    #     vid_info = yt.YoutubeDL({"skip_download": True, 'oauth2': {
+    #     'client_id': credentials.client_id,
+    #     'client_secret': credentials.client_secret,
+    #     'refresh_token': credentials.refresh_token,
+    #     'access_token': credentials.access_token,
+    # }})
+        vid_info = yt.YoutubeDL({"skip_download": True, 'username': 'militarymotivated@gmail.com', 'password': 'Login#@411'})
         vid_info_extract = vid_info.extract_info(url)
         
         title = vid_info_extract.get("title", "")
@@ -86,13 +87,7 @@ async def download_video(request: Request, background_tasks: BackgroundTasks):
         clean_title = re.sub(r'[^A-Za-z0-9]+', '-', title)
         
         download_file_name = f"{clean_title}-{video_id}.mp4"
-        vid = yt.YoutubeDL({ 'outtmpl': download_file_name, 'format': f'bestvideo[ext={"mp4"}]+bestaudio[ext=m4a]/best[ext={"mp4"}]', 'oauth2': {
-        'client_id': credentials.client_id,
-        'client_secret': credentials.client_secret,
-        'refresh_token': credentials.refresh_token,
-        'access_token': credentials.access_token,
-    }
- })
+        vid = yt.YoutubeDL({ 'outtmpl': download_file_name, 'format': f'bestvideo[ext={"mp4"}]+bestaudio[ext=m4a]/best[ext={"mp4"}]', 'username': 'militarymotivated@gmail.com', 'password': 'Login#@411'})
         vid.download(url)
         
         current_path = os.getcwd()
