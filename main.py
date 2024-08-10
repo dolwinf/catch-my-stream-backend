@@ -35,10 +35,6 @@ opts = {
     }
 }
 
-# Run the OAuth2 flow to get the credentials
-storage = Storage('oauth2.json')
-credentials = run_flow(flow, storage)
-
 
 app.state.limiter = limiter
 app.add_exception_handler(429, _rate_limit_exceeded_handler)
@@ -111,4 +107,4 @@ app.include_router(router)
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
+    uvicorn.run(app, host="0.0.0.0", port="$PORT")
