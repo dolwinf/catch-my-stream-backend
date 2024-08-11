@@ -106,4 +106,5 @@ async def download_video(request: Request, background_tasks: BackgroundTasks):
 app.include_router(router)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="$PORT")
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
