@@ -43,14 +43,8 @@ async def download_video(request: Request, background_tasks: BackgroundTasks):
     try:
         body = await request.json()
         url = body.get("url")
-       
-        # vid_info = yt.YoutubeDL({"skip_download": True, 'extractor_args': {
-        #     'youtube': {
-        #         'api_key': "AIzaSyAXvrTD1NW0NVb2PB8XD05rkGIILuaRchQ"
-        #     },
-        # }
-        # })
-        vid_info = yt.YoutubeDL({"skip_download": True,  'extractor_args': {'youtube': {'player_client': ['tv_embedded']}}})
+     
+        vid_info = yt.YoutubeDL({"skip_download": True,  'proxy': 'http://scraperapi:97a76b70dc7439a52630c7c17812ce8d@proxy-server.scraperapi.com:8001','extractor_args': {'youtube': {'player_client': ['tv_embedded']}}})
         vid_info_extract = vid_info.extract_info(url)
         
         title = vid_info_extract.get("title", "")
@@ -59,12 +53,8 @@ async def download_video(request: Request, background_tasks: BackgroundTasks):
         clean_title = re.sub(r'[^A-Za-z0-9]+', '-', title)
         
         download_file_name = f"{clean_title}-{video_id}.mp4"
-        # vid = yt.YoutubeDL({ 'outtmpl': download_file_name, 'format': f'bestvideo[ext={"mp4"}]+bestaudio[ext=m4a]/best[ext={"mp4"}]', 'extractor_args': {
-        #     'youtube': {
-        #         'api_key': "AIzaSyAXvrTD1NW0NVb2PB8XD05rkGIILuaRchQ"
-        #     },
-        # }})
-        vid = yt.YoutubeDL({ 'outtmpl': download_file_name, 'format': f'bestvideo[ext={"mp4"}]+bestaudio[ext=m4a]/best[ext={"mp4"}]',  'extractor_args': {'youtube': {'player_client': ['tv_embedded']}},})
+     
+        vid = yt.YoutubeDL({ 'outtmpl': download_file_name, 'proxy': 'http://scraperapi:97a76b70dc7439a52630c7c17812ce8d@proxy-server.scraperapi.com:8001','format': f'bestvideo[ext={"mp4"}]+bestaudio[ext=m4a]/best[ext={"mp4"}]',  'extractor_args': {'youtube': {'player_client': ['tv_embedded']}},})
         vid.download(url)
         
         current_path = os.getcwd()
