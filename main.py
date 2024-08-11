@@ -5,41 +5,13 @@ from fastapi.responses import JSONResponse
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.middleware import SlowAPIMiddleware
-from oauth2client.client import OAuth2WebServerFlow
-from oauth2client.file import Storage
-from oauth2client.tools import run_flow
 import yt_dlp as yt
 import os
 import re
-import argparse
-
-
 
 limiter = Limiter(key_func=get_remote_address)
 app = FastAPI(docs_url=None, redoc_url=None)
 router = APIRouter()
-
-# flow = OAuth2WebServerFlow(
-#     client_id='29596632858-bjj3570a57ti4773njh3ke35idn44avi.apps.googleusercontent.com',
-#     client_secret='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',
-#     scope='https://www.googleapis.com/auth/youtube.force-ssl',
-#     redirect_uri='urn:ietf:wg:oauth:2.0:oob'
-# )
-
-# storage = Storage('oauth2.json')
-# credentials = run_flow(flow, storage)
-
-# opts = {
-#     'oauth2': {
-#         'client_id': credentials.client_id,
-#         'client_secret': credentials.client_secret,
-#         'refresh_token': credentials.refresh_token,
-#         'access_token': credentials.access_token,
-#     }
-# }
-
-# flags = argparse.ArgumentParser(parents=[argparse.ArgumentParser()]).parse_args(['--noauth_local_webserver'])
-# credentials = run_flow(flow, storage, flags)
 
 app.state.limiter = limiter
 app.add_exception_handler(429, _rate_limit_exceeded_handler)
@@ -72,12 +44,6 @@ async def download_video(request: Request, background_tasks: BackgroundTasks):
         body = await request.json()
         url = body.get("url")
        
-    #     vid_info = yt.YoutubeDL({"skip_download": True, 'oauth2': {
-    #     'client_id': credentials.client_id,
-    #     'client_secret': credentials.client_secret,
-    #     'refresh_token': credentials.refresh_token,
-    #     'access_token': credentials.access_token,
-    # }})
         vid_info = yt.YoutubeDL({"skip_download": True, 'username': 'militarymotivated@gmail.com', 'password': 'Login#@411'})
         vid_info_extract = vid_info.extract_info(url)
         
@@ -107,4 +73,4 @@ app.include_router(router)
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
+    uvicorn.run(app, host="localhost", port=int(os.environ.get("PORT", 8000)))
